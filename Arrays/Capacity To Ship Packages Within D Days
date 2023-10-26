@@ -1,0 +1,44 @@
+class Solution {
+public:
+    bool isPossible(vector<int> v,int mid,int days)
+    {
+        int currMax=mid,curr=0,d=1;
+        for(int val:v)
+        {
+            if(curr+val<=currMax)
+            {
+                curr+=val;
+            }
+            else
+            {
+                curr=val;
+                d++;
+            }
+        }
+        if(d<=days)return true;
+        return false;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int low=INT_MIN,high=0;
+        for(int val:weights)
+        {
+            low=max(val,low);
+            high+=val;
+        }
+        int mid,ans;
+        while(low<=high)
+        {
+            mid=low+(high-low)/2;
+            if(isPossible(weights,mid,days))
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else{
+                low=mid+1;
+            }
+        }
+        return ans;
+
+    }
+};

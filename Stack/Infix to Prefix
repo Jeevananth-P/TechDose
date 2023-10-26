@@ -1,0 +1,56 @@
+#include<bits/stdc++.h>
+using namespace std;
+int prec(char ch){
+	if(ch=='^')return 3;
+	else if(ch=='*' || ch=='/')return 2;
+	else if(ch=='+' || ch=='-')return 1;
+	else return -1;
+}
+void solve(){
+      string str;
+      cin>>str;
+      string ans;
+      stack<char> st;
+      reverse(str.begin(),str.end());
+      for(int i=0;i<(int)str.size();i++){
+      	if(str[i]=='(')str[i]=')';
+      	else if(str[i]==')') str[i]='(';
+      }
+      for(char ch:str){
+      	if((ch>='A'&&ch<='Z')||(ch>='a'&&ch<='z')||(ch>='0'&&ch<='9')){
+      		ans+=ch;
+      	}else if(ch=='('){
+           st.push(ch);
+      	}else if(ch==')'){
+      		while(st.top()!='('){
+      			ans+=st.top();
+      			st.pop();
+      		}
+      		st.pop();
+      	}else{
+      		while(!st.empty() && prec(ch)<=prec(st.top())){
+      			ans+=st.top();
+      			st.pop();
+      		}
+      		st.push(ch);
+      	}
+     }
+     while(!st.empty()){
+     	ans+=st.top();
+     	st.pop();
+     }
+     reverse(ans.begin(),ans.end());
+     cout<<ans;
+   }
+int main(){
+    #ifndef ONLINE_JUDGE
+       freopen("input1.txt","r",stdin);
+       freopen("output1.txt","w",stdout);
+    #endif
+       int t=1;
+       while(t--){
+       	solve();
+       	cout<<endl;
+       }	
+ 
+}
