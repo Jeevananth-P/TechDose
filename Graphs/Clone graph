@@ -1,54 +1,36 @@
-/*
-// Definition for a Node.
-class Node {
-public:
-    int val;
-    vector<Node*> neighbors;
-    Node() {
-        val = 0;
-        neighbors = vector<Node*>();
-    }
-    Node(int _val) {
-        val = _val;
-        neighbors = vector<Node*>();
-    }
-    Node(int _val, vector<Node*> _neighbors) {
-        val = _val;
-        neighbors = _neighbors;
-    }
-};
-*/
-void dfs(Node* curr,Node* node,vector<Node*> &vis){
-    vis[node->val]=node;
-    for(auto it:curr->neighbors){
-             if(vis[it->val]==NULL){
-                 Node* newNode=new Node(it->val);
-                 (node->neighbors).push_back(newNode);
-                 dfs(it,newNode,vis);
-             }
-             else{
-                 (node->neighbors).push_back(vis[it->val]);
-             }
-        }
-}
-
 class Solution {
-public:
-    Node* cloneGraph(Node* node) {
-        vector<Node*> vis(101,NULL);
-        if(node==NULL)return NULL;
-        Node* ans=new Node(node->val);
-        vis[node->val]=ans;
-        for(auto curr:node->neighbors){
-             if(vis[curr->val]==NULL){
-                 Node* newNode=new Node(curr->val);
-                 (ans->neighbors).push_back(newNode);
-                 dfs(curr,newNode,vis);
-             }
-             else{
-                 (ans->neighbors).push_back(vis[curr->val]);
-             }
+    public Node cloneGraph(Node node) {
+        List<Node> vis = new ArrayList<>(101);
+        for (int i = 0; i < 101; i++) {
+            vis.add(null);
+        }
+        if (node == null) {
+            return null;
+        }
+        Node ans = new Node(node.val);
+        vis.set(node.val, ans);
+        for (Node curr : node.neighbors) {
+            if (vis.get(curr.val) == null) {
+                Node newNode = new Node(curr.val);
+                ans.neighbors.add(newNode);
+                dfs(curr, newNode, vis);
+            } else {
+                ans.neighbors.add(vis.get(curr.val));
+            }
         }
         return ans;
     }
-};
+
+    private void dfs(Node curr, Node node, List<Node> vis) {
+        vis.set(node.val, node);
+        for (Node it : curr.neighbors) {
+            if (vis.get(it.val) == null) {
+                Node newNode = new Node(it.val);
+                node.neighbors.add(newNode);
+                dfs(it, newNode, vis);
+            } else {
+                node.neighbors.add(vis.get(it.val));
+            }
+        }
+    }
+}
