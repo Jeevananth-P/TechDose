@@ -1,24 +1,24 @@
 class Solution {
-public:
-    void solve(int curr,int target,vector<int> path,vector<vector<int>> &graph,vector<vector<int>> &ans){
-        if(curr==target-1){
-            path.push_back(target-1);
-            ans.push_back(path);
-            return;
-        }
-        path.push_back(curr);
-        for(int neigh:graph[curr]){
-            solve(neigh,target,path,graph,ans);
-        }
-        path.pop_back();
-       
+    public List<List<Integer>> allPathsSourceTarget(int[][] graph) {
+        List<List<Integer>> res=new ArrayList<>();
+        List<Integer> currentPath=new ArrayList<>();
+        currentPath.add(0);
+        int length=graph.length;
+        recSol(res,0,length-1,graph,currentPath);
+        return res;
     }
-    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
-        vector<vector<int>> ans;
-        int n=graph.size();
-        vector<bool> vis(n,false);
-        vector<int> path;
-        solve(0,n,path,graph,ans);
-        return ans;
+    public void recSol(List<List<Integer>> resList,int currentNode,int destinationNode,int[][] graph ,List<Integer> currentPath ){
+        if(currentNode == destinationNode){
+            List<Integer> finalPath=new ArrayList<>();
+            finalPath.addAll(currentPath);
+            resList.add(finalPath);
+        }else{
+            int[] childNode=graph[currentNode];
+            for(int temp:childNode){
+                currentPath.add(temp);
+                recSol(resList,temp,destinationNode,graph,currentPath);                    
+                currentPath.remove(currentPath.size()-1);
+            }
+        }
     }
-};
+}
