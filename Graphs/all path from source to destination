@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void solve(int curr,int target,vector<int> path,vector<vector<int>> &graph,vector<vector<int>> &ans){
+        if(curr==target-1){
+            path.push_back(target-1);
+            ans.push_back(path);
+            return;
+        }
+        path.push_back(curr);
+        for(int neigh:graph[curr]){
+            solve(neigh,target,path,graph,ans);
+        }
+        path.pop_back();
+       
+    }
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<vector<int>> ans;
+        int n=graph.size();
+        vector<bool> vis(n,false);
+        vector<int> path;
+        solve(0,n,path,graph,ans);
+        return ans;
+    }
+};
